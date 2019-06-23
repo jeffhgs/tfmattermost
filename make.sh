@@ -33,6 +33,7 @@ else
     terraform init
   fi
 
+  export AWS_SDK_LOAD_CONFIG=1
   loginfo "about to plan"
   terraform plan -out plan1 .
   loginfo "about to apply"
