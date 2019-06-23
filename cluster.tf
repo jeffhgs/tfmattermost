@@ -171,6 +171,12 @@ resource "aws_rds_cluster" "db_cluster" {
     apply_immediately = true
     vpc_security_group_ids = ["${aws_security_group.db.id}"]
     availability_zones = ["us-east-1a"]
+    scaling_configuration {
+        auto_pause               = true
+        max_capacity             = 4
+        min_capacity             = 1
+        seconds_until_auto_pause = 300
+    }
 }
 
 output "dbEndpoint" {
