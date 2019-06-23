@@ -35,9 +35,9 @@ else
 
   export AWS_SDK_LOAD_CONFIG=1
   loginfo "about to plan"
-  terraform plan -out plan1 .
+  terraform plan -out plan1 -var-file="cluster1.tfvars" .
   loginfo "about to apply"
-  terraform apply plan1
+  terraform apply plan1 
 fi
 
 
