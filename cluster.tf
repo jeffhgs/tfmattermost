@@ -169,8 +169,8 @@ resource "aws_rds_cluster" "db_cluster" {
     master_username = "mmuser"
     master_password = "${var.db_password}"
     skip_final_snapshot = true
-    engine = "aurora"
-    engine = "5.6.10a"
+    engine = "aurora-mysql"
+    engine_version = "5.6.10a"
     engine_mode = "serverless"
     apply_immediately = true
     vpc_security_group_ids = ["${aws_security_group.db.id}"]
