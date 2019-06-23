@@ -2,13 +2,13 @@ variable "cluster_name" {
     default = "loadtest"
 }
 variable "app_instance_type" {}
-variable "db_instance_type" {}
+//variable "db_instance_type" {}
 variable "app_instance_count" {
     default = 1
 }
-variable "db_instance_count" {
-    default = 1
-}
+//variable "db_instance_count" {
+//    default = 1
+//}
 variable "loadtest_instance_count" {
     default = 1
 }
@@ -148,6 +148,7 @@ resource "aws_security_group" "loadtest" {
     }
 }
 
+/*
 resource "aws_rds_cluster_instance" "db_cluster_instances" {
     count = "${var.db_instance_count}"
     identifier = "${var.cluster_name}-db-${count.index}"
@@ -158,6 +159,7 @@ resource "aws_rds_cluster_instance" "db_cluster_instances" {
     monitoring_interval = 10
     monitoring_role_arn = "${aws_iam_role.rds_enhanced_monitoring.arn}"
 }
+*/
 
 resource "aws_rds_cluster" "db_cluster" {
     cluster_identifier = "${var.cluster_name}-db"
