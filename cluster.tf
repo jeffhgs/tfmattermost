@@ -9,9 +9,9 @@ variable "app_instance_count" {
 //variable "db_instance_count" {
 //    default = 1
 //}
-variable "loadtest_instance_count" {
-    default = 1
-}
+//variable "loadtest_instance_count" {
+//    default = 1
+//}
 variable "db_password" {}
 variable "ssh_public_key" {}
 variable "ssh_private_key" {}
@@ -111,6 +111,7 @@ resource "aws_security_group" "app_gossip" {
     }
 }
 
+/*
 resource "aws_instance" "loadtest" {
     tags {
         Name = "${var.cluster_name}-loadtest-${count.index}"
@@ -125,6 +126,7 @@ resource "aws_instance" "loadtest" {
     count = "${var.loadtest_instance_count}"
     availability_zone = "us-east-1a"
 }
+*/
 
 output "loadtestInstanceIP" {
     value = "${aws_instance.loadtest.*.public_ip}"
