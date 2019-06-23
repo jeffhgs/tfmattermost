@@ -16,15 +16,18 @@ variable "db_password" {}
 variable "ssh_public_key" {}
 variable "ssh_private_key" {}
 
+variable "region" {}
+variable "ami" {}
+
 provider "aws" {
-    region = "us-west-2"
+    region = "${var.region}"
 }
 
 resource "aws_instance" "app_server" {
     tags {
         Name = "${var.cluster_name}-app-${count.index}"
     }
-    ami = "ami-43a15f3e"
+    ami = "${var.ami}"
     instance_type = "${var.app_instance_type}"
     associate_public_ip_address = true
     vpc_security_group_ids = [
@@ -33,7 +36,7 @@ resource "aws_instance" "app_server" {
     ]
     key_name = "${aws_key_pair.key.id}"
     count = "${var.app_instance_count}"
-    availability_zone = "us-east-1a"
+    availability_zone = "${var.region}a"
 }
 
 resource "aws_key_pair" "key" {
@@ -115,7 +118,7 @@ resource "aws_instance" "loadtest" {
     tags {
         Name = "${var.cluster_name}-loadtest-${count.index}"
     }
-    ami = "ami-43a15f3e"
+    ami = "${var.ami}"
     instance_type = "m4.xlarge"
     associate_public_ip_address = true
     vpc_security_group_ids = [
@@ -123,7 +126,7 @@ resource "aws_instance" "loadtest" {
     ]
     key_name = "${aws_key_pair.key.id}"
     count = "${var.loadtest_instance_count}"
-    availability_zone = "us-east-1a"
+    availability_zone = "${var.region}a"
 }
 */
 
@@ -173,7 +176,7 @@ resource "aws_rds_cluster" "db_cluster" {
     engine_mode = "serverless"
     apply_immediately = true
     vpc_security_group_ids = ["${aws_security_group.db.id}"]
-    availability_zones = ["us-east-1a"]
+    availability_zones = ["${var.region}a","${var.region}b","${var.region}c"]
     scaling_configuration {
         auto_pause               = true
         max_capacity             = 4
@@ -231,7 +234,7 @@ resource "aws_instance" "proxy_server" {
     tags {
         Name = "${var.cluster_name}-proxy-${count.index}"
     }
-    ami = "ami-43a15f3e"
+    ami = "${var.ami}"
     instance_type = "m4.xlarge"
     associate_public_ip_address = true
     vpc_security_group_ids = [
@@ -239,7 +242,7 @@ resource "aws_instance" "proxy_server" {
     ]
     key_name = "${aws_key_pair.key.id}"
     count = "${var.loadtest_instance_count}"
-    availability_zone = "us-east-1a"
+    availability_zone = "${var.region}a"
 }
 
 output "proxyIP" {
@@ -334,14 +337,14 @@ resource "aws_instance" "metrics" {
     tags {
         Name = "${var.cluster_name}-metrics"
     }
-    ami = "ami-43a15f3e"
+    ami = "${var.ami}"
     instance_type = "t2.large"
     associate_public_ip_address = true
     vpc_security_group_ids = [
         "${aws_security_group.metrics.id}",
     ]
     key_name = "${aws_key_pair.key.id}"
-    availability_zone = "us-east-1a"
+    availability_zone = "${var.region}a"
 
     provisioner "file" {
         destination = "/home/ubuntu/prometheus.service"
