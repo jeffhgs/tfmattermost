@@ -14,10 +14,10 @@ chmod +x /usr/local/bin/docker-compose
 
 apt-get install git
 cd "$adirScript"
-git clone https://github.com/mattermost/mattermost-docker.git
+git clone https://github.com/mattermost/mattermost-docker.git /mattermost-docker-build
 
-cp "$adirScript/docker-compose.yml" "$adirScript/mattermost-docker/docker-compose.yml"
-cd mattermost-docker
+cp "$adirScript/docker-compose.yml" "/mattermost-docker-build/docker-compose.yml"
+cd /mattermost-docker-build
 docker-compose build
 mkdir -pv ./volumes/app/mattermost/{data,logs,config,plugins,client-plugins}
 sudo chown -R 2000:2000 ./volumes/app/mattermost/
