@@ -24,15 +24,15 @@ provider "aws" {
 }
 
 module "script" {
-  source = "script"
+  source = "./script"
   db_password = "${var.db_password}"
   db_host = "$${dbEndpoint}"
 }
 
 resource "aws_instance" "app_server" {
-    tags {
-        Name = "${var.cluster_name}-app-${count.index}"
-    }
+    //tags {
+    //  Name = "${var.cluster_name}-app-${count.index}"
+    //}
     ami = "${var.ami}"
     instance_type = "${var.app_instance_type}"
     associate_public_ip_address = true
@@ -239,9 +239,9 @@ resource "aws_security_group" "proxy" {
 resource "aws_s3_bucket" "app" {
     bucket = "${var.cluster_name}.loadtestbucket"
     acl = "private"
-    tags {
-        Name = "${var.cluster_name}"
-    }
+    //tags {
+    //    Name = "${var.cluster_name}"
+    //}
     force_destroy = true
 }
 
