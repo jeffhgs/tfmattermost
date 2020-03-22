@@ -45,6 +45,9 @@ data "template_cloudinit_config" "config" {
     content_type = "text/cloud-config"
     content      = "${template_file.docker-compose.rendered}"
   }
+  part {
+    content = "#cloud-config\n---\nruncmd:\n - bash ./installmm.sh"
+  }
 }
 
 output "docker-compose1" {
