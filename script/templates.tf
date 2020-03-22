@@ -28,21 +28,21 @@ data "template_cloudinit_config" "config" {
   # Main cloud-config configuration file.
   part {
     filename     = "installmm.sh"
-    content_type = "text/cloud-config"
+    content_type = "text/x-shellscript"
     content      = "${template_file.installmm.rendered}"
   }
 
   # Main cloud-config configuration file.
   part {
     filename     = "run.sh"
-    content_type = "text/cloud-config"
+    content_type = "text/x-shellscript"
     content      = "${template_file.run.rendered}"
   }
 
   # Main cloud-config configuration file.
   part {
     filename     = "docker-compose.yml"
-    content_type = "text/cloud-config"
+    content_type = "text/x-yaml"
     content      = "${template_file.docker-compose.rendered}"
   }
   part {
