@@ -34,7 +34,7 @@ data "template_cloudinit_config" "config" {
 
   # Main cloud-config configuration file.
   part {
-    filename     = "run.sh"
+    filename     = "run.sh.sh"
     content_type = "text/x-shellscript"
     content      = "${template_file.run.rendered}"
   }
