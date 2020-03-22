@@ -36,6 +36,7 @@ resource "aws_instance" "app_server" {
     key_name = "${aws_key_pair.key.id}"
     count = "${var.app_instance_count}"
     availability_zone = "${var.region}a"
+    user_data = "${file("cloudinit.yaml")}"
 }
 
 resource "aws_key_pair" "key" {
