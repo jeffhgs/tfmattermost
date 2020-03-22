@@ -1,5 +1,7 @@
 version: "3"
 
+# based on: https://docs.mattermost.com/install/prod-docker.html
+
 services:
 
 #  db:

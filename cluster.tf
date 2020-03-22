@@ -12,6 +12,7 @@ variable "app_instance_count" {
 //    default = 1
 //}
 variable "db_password" {}
+
 variable "ssh_public_key" {}
 variable "ssh_private_key" {}
 
@@ -20,6 +21,12 @@ variable "ami" {}
 
 provider "aws" {
     region = "${var.region}"
+}
+
+module "script" {
+  source = "script"
+  db_password = "${var.db_password}"
+  db_host = "$${dbEndpoint}"
 }
 
 resource "aws_instance" "app_server" {
@@ -36,7 +43,7 @@ resource "aws_instance" "app_server" {
     key_name = "${aws_key_pair.key.id}"
     count = "${var.app_instance_count}"
     availability_zone = "${var.region}a"
-    user_data = "${file("cloudinit.yaml")}"
+    user_data = "${module.script.cloudinit-config1}"
 }
 
 resource "aws_key_pair" "key" {
