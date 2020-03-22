@@ -13,12 +13,14 @@ curl -L "https://github.com/docker/compose/releases/download/$dockerComposeVersi
 chmod +x /usr/local/bin/docker-compose
 
 apt-get install git
+cd "$adirScript"
 git clone https://github.com/mattermost/mattermost-docker.git
 
-cp "$adirScript/docker-compose.yml" mattermost-docker/docker-compose.yml
+cp "$adirScript/docker-compose.yml" "$adirScript/mattermost-docker/docker-compose.yml"
 cd mattermost-docker
 docker-compose build
 mkdir -pv ./volumes/app/mattermost/{data,logs,config,plugins,client-plugins}
 sudo chown -R 2000:2000 ./volumes/app/mattermost/
 
+bash "$${adirScript}/run.sh.sh"
 bash "$${adirScript}/run.sh"
