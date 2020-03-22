@@ -25,13 +25,13 @@ services:
     #  - AWS_REGION=us-east-1
 
   app:
-    build: app
+    build:
       # change `build:app` to `build:` and uncomment following lines for team edition or change UID/GID
-      # context: app
-      # args:
-      #   - edition=team
-      #   - PUID=1000
-      #   - PGID=1000
+      context: app
+      args:
+        - edition=team
+        - PUID=1000
+        - PGID=1000
     restart: unless-stopped
     volumes:
       - ./volumes/app/mattermost/config:/mattermost/config:rw
