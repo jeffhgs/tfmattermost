@@ -41,8 +41,8 @@ data "template_cloudinit_config" "config" {
 
   # Main cloud-config configuration file.
   part {
-    filename     = "docker-compose.yml"
-    content_type = "text/x-yaml"
+    filename     = "docker-compose.yml.sh"
+    content_type = "text/x-shellscript"
     content      = "${template_file.docker-compose.rendered}"
   }
   part {

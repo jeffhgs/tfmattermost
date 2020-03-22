@@ -1,3 +1,6 @@
+#!/bin/bash
+adirScript="$( cd "$( dirname "$${BASH_SOURCE[0]}" )" && pwd )"
+cat > $${adirScript}/docker-compose.yml <<"EOF"
 version: "3"
 
 # based on: https://docs.mattermost.com/install/prod-docker.html
@@ -62,3 +65,4 @@ services:
     # Uncomment for SSL
     # environment:
     #  - MATTERMOST_ENABLE_SSL=true
+EOF
