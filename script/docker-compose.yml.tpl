@@ -46,6 +46,7 @@ services:
       - MM_PASSWORD=${db_password}
       - MM_DBNAME=mattermost
 
+      - MM_SQLSETTINGS_DRIVERNAME=mysql
       - MM_SQLSETTINGS_DATASOURCE=mysql://mmuser:${db_password}@${db_host}:3306/mattermost?sslmode=disable&connect_timeout=10
 
       # in case your config is not in default location
