@@ -38,12 +38,10 @@ services:
     environment:
       # set same as db credentials and dbname
       - MM_USERNAME=mmuser
-      - MM_PASSWORD=mmuser_password
+      - MM_PASSWORD=${db_password}
       - MM_DBNAME=mattermost
 
-      # use the credentials you've set above, in the format:
-      # MM_SQLSETTINGS_DATASOURCE=postgres://${MM_USERNAME}:${MM_PASSWORD}@db:5432/${MM_DBNAME}?sslmode=disable&connect_timeout=10
-      - MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:mmuser_password@db:5432/mattermost?sslmode=disable&connect_timeout=10
+      - MM_SQLSETTINGS_DATASOURCE=mysql://mmuser:${db_password}@${db_host}:3306/mattermost?sslmode=disable&connect_timeout=10
 
       # in case your config is not in default location
       #- MM_CONFIG=/mattermost/config/config.json
