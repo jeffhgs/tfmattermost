@@ -1,3 +1,4 @@
+#!/bin/bash
 adirScript="$( cd "$( dirname "$${BASH_SOURCE[0]}" )" && pwd )"
 
 apt-get update
