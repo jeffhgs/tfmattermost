@@ -26,7 +26,7 @@ provider "aws" {
 module "script" {
   source = "./script"
   db_password = "${var.db_password}"
-  db_host = "$${dbEndpoint}"
+  db_host = "${module.rds.dbEndpoint}"
 }
 
 resource "aws_instance" "app_server" {
@@ -53,6 +53,14 @@ resource "aws_key_pair" "key" {
 
 output "instanceIP" {
     value = "${aws_instance.app_server.*.public_dns}"
+}
+
+module "rds" {
+  source = "./rds"
+  db_password = "${var.db_password}"
+  cluster_name = "${var.cluster_name}"
+  vpc_security_group_ids = ["${aws_security_group.db.id}"]
+  availability_zones = ["${var.region}a","${var.region}b","${var.region}c"]
 }
 
 resource "aws_security_group" "app" {
@@ -143,34 +151,6 @@ resource "aws_security_group" "loadtest" {
         protocol = "-1"
         cidr_blocks = ["0.0.0.0/0"]
     }
-}
-
-resource "aws_rds_cluster" "db_cluster" {
-    cluster_identifier = "${var.cluster_name}-db"
-    database_name = "mattermost"
-    master_username = "mmuser"
-    master_password = "${var.db_password}"
-    skip_final_snapshot = true
-    engine = "aurora"
-    engine_version = "5.6.10a"
-    engine_mode = "serverless"
-    apply_immediately = true
-    vpc_security_group_ids = ["${aws_security_group.db.id}"]
-    availability_zones = ["${var.region}a","${var.region}b","${var.region}c"]
-    scaling_configuration {
-        auto_pause               = true
-        max_capacity             = 4
-        min_capacity             = 1
-        seconds_until_auto_pause = 300
-    }
-}
-
-output "dbEndpoint" {
-    value = "${aws_rds_cluster.db_cluster.endpoint}"
-}
-
-output "dbReaderEndpoint" {
-    value = "${aws_rds_cluster.db_cluster.reader_endpoint}"
 }
 
 resource "aws_security_group" "db" {
