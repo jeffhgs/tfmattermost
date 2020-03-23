@@ -64,6 +64,6 @@ services:
       - ./volumes/web/cert:/cert:ro
       - /etc/localtime:/etc/localtime:ro
     # Uncomment for SSL
-    # environment:
-    #  - MATTERMOST_ENABLE_SSL=true
+    environment:
+      - MATTERMOST_ENABLE_SSL=true
 EOFDC

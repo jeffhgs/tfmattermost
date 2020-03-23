@@ -9,6 +9,12 @@ resource "template_file" "docker-compose" {
   }
 }
 
+resource "template_file" "gen_self_sign" {
+  template = "${file("${path.module}/../script/gen_self_sign.sh")}"
+  vars = {
+  }
+}
+
 resource "template_file" "installmm" {
   template = "${file("${path.module}/../script/installmm.sh")}"
   vars = {
@@ -24,6 +30,13 @@ resource "template_file" "run" {
 data "template_cloudinit_config" "config" {
   gzip          = true
   base64_encode = true
+
+  # Main cloud-config configuration file.
+  part {
+    filename     = "gen_self_sign.sh.sh"
+    content_type = "text/x-shellscript"
+    content      = "${template_file.gen_self_sign.rendered}"
+  }
 
   # Main cloud-config configuration file.
   part {

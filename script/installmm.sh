@@ -22,5 +22,8 @@ docker-compose build
 mkdir -pv ./volumes/app/mattermost/{data,logs,config,plugins,client-plugins}
 sudo chown -R 1000:1000 ./volumes/app/mattermost/
 
+bash "$${adirScript}/gen_self_sign.sh.sh"
+bash "$${adirScript}/gen_self_sign.sh"
+
 bash "$${adirScript}/run.sh.sh"
 bash "$${adirScript}/run.sh"
