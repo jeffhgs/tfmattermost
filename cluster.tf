@@ -14,7 +14,7 @@ variable "region" {}
 variable "ami" {}
 
 provider "aws" {
-    region = "${var.region}"
+    region = var.region
 }
 
 module "script" {
@@ -27,7 +27,7 @@ resource "aws_instance" "app_server" {
     //tags {
     //  Name = "${var.cluster_name}-app-${count.index}"
     //}
-    ami = "${var.ami}"
+    ami = var.ami
     instance_type = "${var.app_instance_type}"
     associate_public_ip_address = true
     vpc_security_group_ids = [
