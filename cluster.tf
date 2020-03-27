@@ -5,12 +5,6 @@ variable "app_instance_type" {}
 variable "app_instance_count" {
     default = 1
 }
-//variable "db_instance_count" {
-//    default = 1
-//}
-//variable "loadtest_instance_count" {
-//    default = 1
-//}
 variable "db_password" {}
 
 variable "ssh_public_key" {}
@@ -135,24 +129,6 @@ resource "aws_security_group" "app_gossip" {
 }
 
 
-resource "aws_security_group" "loadtest" {
-    name = "${var.cluster_name}-loadtest-security-group"
-    description = "Loadtest security group for loadtest cluster ${var.cluster_name}"
-
-    ingress {
-        from_port = 22
-        to_port = 22
-        protocol = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-    }
-    egress {
-        from_port = 0
-        to_port = 0
-        protocol = "-1"
-        cidr_blocks = ["0.0.0.0/0"]
-    }
-}
-
 resource "aws_security_group" "db" {
     name = "${var.cluster_name}-db-security-group"
 
@@ -187,32 +163,6 @@ data "aws_iam_policy_document" "rds_enhanced_monitoring" {
             type        = "Service"
             identifiers = ["monitoring.rds.amazonaws.com"]
         }
-    }
-}
-
-resource "aws_security_group" "proxy" {
-    name = "${var.cluster_name}-proxy-security-group"
-    description = "Proxy security group for loadtest cluster ${var.cluster_name}"
-
-    ingress {
-        from_port = 80
-        to_port = 80
-        protocol = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-    }
-
-    ingress {
-        from_port = 22
-        to_port = 22
-        protocol = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-    }
-
-    egress {
-        from_port = 0
-        to_port = 0
-        protocol = "-1"
-        cidr_blocks = ["0.0.0.0/0"]
     }
 }
 
