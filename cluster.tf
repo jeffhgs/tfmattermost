@@ -13,6 +13,9 @@ variable "ssh_private_key" {}
 variable "region" {}
 variable "ami" {}
 
+variable "dnsDomainName" {}
+variable "dnsZoneId" {}
+
 provider "aws" {
     region = var.region
 }
@@ -47,6 +50,14 @@ resource "aws_key_pair" "key" {
 
 output "instanceIP" {
     value = "${aws_instance.app_server.*.public_dns}"
+}
+
+resource "aws_route53_record" "app" {
+  zone_id = var.dnsZoneId
+  name    = "${var.cluster_name}.${var.dnsDomainName}"
+  type    = "CNAME"
+  ttl     = "300"
+  records = "${aws_instance.app_server.*.public_dns}"
 }
 
 module "rds" {
