@@ -20,6 +20,11 @@ check_prereqs() {
     logerror "required environment variable: AWS_DEFAULT_REGION"
     return 1
   fi
+  if [[ -z "$STAGE" ]]
+  then
+    logerror "required environment variable: STAGE"
+    return 1
+  fi
   return 0
 }
 
@@ -35,5 +40,5 @@ else
 
   export AWS_SDK_LOAD_CONFIG=1
   loginfo "about to destroy"
-  terraform destroy -var-file="cluster1.tfvars" .
+  terraform destroy -var-file="${STAGE}.tfvars" .
 fi

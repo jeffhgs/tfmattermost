@@ -20,6 +20,11 @@ check_prereqs() {
     logerror "required environment variable: AWS_DEFAULT_REGION"
     return 1
   fi
+  if [[ -z "$STAGE" ]]
+  then
+    logerror "required environment variable: STAGE"
+    return 1
+  fi
   return 0
 }
 
@@ -35,9 +40,9 @@ else
 
   export AWS_SDK_LOAD_CONFIG=1
   loginfo "about to plan"
-  terraform plan -out plan1 -var-file="cluster1.tfvars" .
+  terraform plan -out "${STAGE}.plan" -var-file="${STAGE}.tfvars" .
   loginfo "about to apply"
-  terraform apply plan1 
+  terraform apply "${STAGE}.plan"
 fi
 
 
